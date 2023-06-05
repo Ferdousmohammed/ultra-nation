@@ -1,22 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import React, {useEffect, useState} from 'react'
+import Country from './components/Country/Country';
 function App() {
+const [contries, setContries] = useState([])
+
+  //  faching data
+ useEffect (()=> {
+  fetch('https://restcountries.com/v3.1/all')
+  .then(response => response.json())
+  .then(data => {
+    setContries(data)
+    console.log(data);
+    const nam = data.map(country => country.flag)
+    console.log(nam);})
+
+    .catch(error => console.log(error))
+ }, [])
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+          <p>this is my ultra nation rest api: {contries.length} </p>
+         
+            {
+            contries.map(country => <Country country = {country}> </Country>)
+            }
+        
+          
       </header>
     </div>
   );
